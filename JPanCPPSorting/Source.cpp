@@ -5,6 +5,7 @@
 
 using namespace std;
 
+/*for (T& item : list) {} //C++ foreach but cycling through T array? */
 
 template <typename T, size_t size>
 void BubbleSort(T(&list)[size]) {
@@ -20,7 +21,6 @@ void BubbleSort(T(&list)[size]) {
 			}
 		}
 	}
-	/*for (T& item : list) {} //C++ foreach but cycling through T array? */
 }
 
 template <typename T, size_t size>
@@ -38,6 +38,73 @@ void SelectionSort(T(&list)[size]) {
 	}
 }
 
+template <typename T, size_t size>
+void InsertionSort(T(&list)[size]) {
+	for (int i = 0; i < size; i++) {
+		for (int j = i; j > 0; j--) {
+			if (list[j] < list[j - 1]) {
+				auto temp = list[j];
+				list[j] = list[j - 1];
+				list[j - 1] = temp;
+			}
+		}
+	}
+}
+
+template <typename T>
+void MergeSort(vector<T> &list) {
+	if (list.size() == 1) {
+		return;
+	}
+	vector<T> sub1;
+	vector<T> sub2;
+	for (unsigned int i = 0; i < list.size() / 2; i++) {
+		sub1.push_back(list[i]);
+	}
+	for (unsigned int i = list.size() / 2; i < list.size(); i++) {
+		sub2.push_back(list[i]);
+	}
+	MergeSort(sub1);
+	MergeSort(sub2);
+	list.clear();
+	Merge(sub1, sub2, list);
+}
+
+template <typename T>
+void Merge(vector<T> list1, vector<T> list2, vector<T> &listOut) {
+	for (unsigned int i = 0; i < list1.size(); i++) {
+		listOut.push_back(list1[i]);
+	}
+	for (unsigned int i = 0; i < list2.size(); i++) {
+		listOut.push_back(list2[i]);
+	}
+	bool sorted = false;
+	while (!sorted) {
+		sorted = true;
+		for (unsigned int i = 0; i < listOut.size() - 1; i++) {
+			if (listOut[i] > listOut[i + 1]) {
+				auto replace = listOut[i + 1];
+				listOut[i + 1] = listOut[i];
+				listOut[i] = replace;
+				sorted = false;
+			}
+		}
+	}
+}
+
+template <typename T>
+void QuickSort(vector<T> list, int range) { //using hoare partition
+	int left;
+	int right;
+	int pivot;
+	while (left < right) {
+		if (list[left] < list[pivot]) {
+
+		}
+		if ()
+	}
+}
+
 int main()
 {
 	std::mt19937 rng;
@@ -46,16 +113,17 @@ int main()
 	//std::vector<int> itemsV{ 1, 2, 3 };
 	//for (int item : itemsV) { } // C++ foreach
 
-	int items[10];
+	//int items[10];
+	vector<int> items;
 	for (int i = 0; i < 10; i++) {
-		items[i] = dist(rng);
+		items.push_back(dist(rng));
 		/*for (int j = 0; j < 10; j++) {
 			while (items[i] = items[j]) {
 				items[i] = rand();
 			}
 		}*/
 	}
-	SelectionSort(items);
+	MergeSort(items);
 	for (int item : items) {
 		cout << item << endl;
 	}
