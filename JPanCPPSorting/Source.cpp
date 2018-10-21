@@ -92,16 +92,29 @@ void Merge(vector<T> list1, vector<T> list2, vector<T> &listOut) {
 	}
 }
 
-template <typename T>
-void QuickSort(vector<T> list, int range) { //using hoare partition
-	int left;
-	int right;
-	int pivot;
-	while (left < right) {
-		if (list[left] < list[pivot]) {
+template <typename T> //
+void QuickSort(vector<T> &list) { //using hoare partition
 
+	void Quick(vector<T> &list, left, right) {
+		if (left < right) {
+			QuickSortHelper(list, left, right);
+			auto temp = list[left];
+			list[left] = list[right];
+			list[right] = temp;
 		}
-		if ()
+		QuickSort(list, left, right);
+		QuickSort(list, right + 1, );
+	}
+}
+
+template <typename T>
+void QuickSortHelper(vector<T> &list, int left, int right) {
+	int pivot = left;
+	while (list[left] < list[pivot]) {
+		left++;
+	}
+	while (list[right] > list[pivot]) {
+		right--;
 	}
 }
 
@@ -123,7 +136,7 @@ int main()
 			}
 		}*/
 	}
-	MergeSort(items);
+	QuickSort(items);
 	for (int item : items) {
 		cout << item << endl;
 	}
