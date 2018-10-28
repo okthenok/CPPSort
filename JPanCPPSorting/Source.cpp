@@ -92,29 +92,56 @@ void Merge(vector<T> list1, vector<T> list2, vector<T> &listOut) {
 	}
 }
 
-template <typename T> //
-void QuickSort(vector<T> &list) { //using hoare partition
-
-	void Quick(vector<T> &list, left, right) {
-		if (left < right) {
-			QuickSortHelper(list, left, right);
-			auto temp = list[left];
-			list[left] = list[right];
-			list[right] = temp;
+template <typename T>
+int HoareQuick(vector<T> &list, int left, int right) {
+	int pivot = left;
+	while (left < right) {
+		while (list[left] < list[pivot]) {
+			left++;
 		}
-		QuickSort(list, left, right);
-		QuickSort(list, right + 1, );
+		while (list[right] > list[pivot]) {
+			right--;
+		}
+		auto temp = list[left];
+		list[left] = list[right];
+		list[right] = temp;
+	}
+	return right;
+}
+template <typename T>
+void HoareQuickSort(vector<T> &list, int left, int right) {
+	int pivot = 0;
+	if (left < right) {
+		pivot = HoareQuick(list, left, right);
+		HoareQuickSort(list, left, pivot);
+		HoareQuickSort(list, pivot + 1, right);
 	}
 }
 
 template <typename T>
-void QuickSortHelper(vector<T> &list, int left, int right) {
-	int pivot = left;
-	while (list[left] < list[pivot]) {
-		left++;
+int LomutoQuick(vector<T> &list, int left, int right) {
+	int wall = -1;
+	int pivot = right;
+	for (int i = left; i < right; i++) {
+		if (list[i] < list[pivot]) {
+			auto temp = list[wall + 1];
+			list[wall + 1] = list[i];
+			list[i] = temp;
+			wall++;
+		}
 	}
-	while (list[right] > list[pivot]) {
-		right--;
+	auto temp = list[pivot];
+	list[pivot] = list[wall + 1];
+	list[wall + 1] = temp;
+	return wall + 1;
+}
+template <typename T>
+void LomutoQuickSort(vector<T> &list, int left, int right) {
+	int pivot = 0;
+	if (left < right) {
+		pivot = LomutoQuick(list, left, right);
+		LomutoQuickSort(list, left, pivot - 1);
+		LomutoQuickSort(list, pivot + 1, right);
 	}
 }
 
@@ -136,7 +163,7 @@ int main()
 			}
 		}*/
 	}
-	QuickSort(items);
+	LomutoQuickSort(items, 0, items.size() - 1);
 	for (int item : items) {
 		cout << item << endl;
 	}
