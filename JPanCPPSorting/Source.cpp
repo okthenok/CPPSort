@@ -120,7 +120,7 @@ void HoareQuickSort(vector<T> &list, int left, int right) {
 
 template <typename T>
 int LomutoQuick(vector<T> &list, int left, int right) {
-	int wall = -1;
+	int wall = left - 1;
 	int pivot = right;
 	for (int i = left; i < right; i++) {
 		if (list[i] < list[pivot]) {
